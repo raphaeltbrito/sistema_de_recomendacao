@@ -1,0 +1,1 @@
+Trabalho em C de u  sistema de recomendação de loja. Projeto desenvolvido por Raphael Brito e Matheus Meira. Equivalente a 3 nota de Programação Estruturada (Gilberto e Luciano)
