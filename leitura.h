@@ -21,7 +21,7 @@ typedef struct {
     vector <vector <int>> prod_clientes;
 } ListaCompras;
 
-int leitura(int argc, char *argv[]);
+int leitura(int argc, char *argv[], ListaCompras &lista);
 
 
 #endif
