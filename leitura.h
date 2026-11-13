@@ -16,8 +16,8 @@ typedef struct {
 typedef struct {
     vector <string> cod_clientes;
     map <string, int> map_clientes;
-    vector <string> cod_produtos;
-    map <string, int> map_produtos;
+    vector <int> cod_produtos;
+    map <int, int> map_produtos;
     vector <vector <int>> prod_clientes;
 } ListaCompras;
 

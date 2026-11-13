@@ -31,30 +31,37 @@ int leitura(int argc, char *argv[]) {
             continue;
         }
 
-        string codigo_externo = d.cliente;
-        int codigo_produto = d.produto;
+        string codigo_externo_cliente = d.cliente;
+        int codigo_externo_produto = d.produto;
 
-        if (lista.map_clientes.find(codigo_externo) == lista.map_clientes.end()) {
-            int indice_clientes = lista.cod_clientes.size();
-            lista.cod_clientes.push_back(codigo_externo);
-            lista.map_clientes[codigo_externo] = indice_clientes;
-            
+        int indice_clientes;
+        if (lista.map_clientes.find(codigo_externo_cliente) == lista.map_clientes.end()) {
+            indice_clientes = lista.cod_clientes.size();
+            lista.cod_clientes.push_back(codigo_externo_cliente);
+            lista.map_clientes[codigo_externo_cliente] = indice_clientes;
+
+            lista.prod_clientes.push_back(vector<int>());        
+        } else {
+            indice_clientes = lista.map_clientes[codigo_externo_cliente];
         }
-        
-        if (lista.map_produtos.find(codigo_produto) == lista.map_produtos.end()){
-            int indice_produtos = lista.nome_produtos.size();
-            lista.nome_produtos.push_back(nome_produto);
-            lista.map_produtos[codigo_produto] = indice_produtos;
+
+        int indice_produtos;
+        if (lista.map_produtos.find(codigo_externo_produto) == lista.map_produtos.end()){
+            indice_produtos = lista.cod_produtos.size();
+            lista.cod_produtos.push_back(codigo_externo_produto);
+            lista.map_produtos[codigo_externo_produto] = indice_produtos;
+        } else {
+            indice_produtos = lista.map_produtos[codigo_externo_produto];
         }
+
+        lista.prod_clientes[indice_clientes].push_back(indice_produtos);
 
         printf("Data: %s | Cliente: %s | Produto: %d | Nome: %s\n",
                d.data, d.cliente, d.produto, d.nome);
-
     }
 
-    
     printf("Clientes: %d\n", (int)lista.cod_clientes.size());  
-    printf("Produtos: %d\n", (int)lista.nome_produtos.size()); 
+    printf("Produtos: %d\n", (int)lista.cod_produtos.size()); 
 
     fclose(arquivo);
 
