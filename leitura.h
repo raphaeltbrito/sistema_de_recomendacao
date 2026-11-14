@@ -19,6 +19,7 @@ typedef struct {
     vector <int> cod_produtos;
     map <int, int> map_produtos;
     vector <vector <int>> prod_clientes;
+    vector <string> nome_produtos;
 } ListaCompras;
 
 int leitura(int argc, char *argv[], ListaCompras &lista);

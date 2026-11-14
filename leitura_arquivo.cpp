@@ -32,6 +32,7 @@ int leitura(int argc, char *argv[], ListaCompras &lista) {
 
         string codigo_externo_cliente = d.cliente;
         int codigo_externo_produto = d.produto;
+        string nome_externo = d.nome;
 
         int indice_clientes;
         if (lista.map_clientes.find(codigo_externo_cliente) == lista.map_clientes.end()) {
@@ -49,14 +50,13 @@ int leitura(int argc, char *argv[], ListaCompras &lista) {
             indice_produtos = lista.cod_produtos.size();
             lista.cod_produtos.push_back(codigo_externo_produto);
             lista.map_produtos[codigo_externo_produto] = indice_produtos;
+            lista.nome_produtos.push_back(nome_externo);
         } else {
             indice_produtos = lista.map_produtos[codigo_externo_produto];
         }
 
         lista.prod_clientes[indice_clientes].push_back(indice_produtos);
 
-        printf("Data: %s | Cliente: %s | Produto: %d | Nome: %s\n",
-               d.data, d.cliente, d.produto, d.nome);
     }
 
     printf("Clientes: %d\n", (int)lista.cod_clientes.size());  
