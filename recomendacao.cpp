@@ -1,5 +1,6 @@
 #include "recomendacao.h"
 #include "similaridade.h"
+#include <stdio.h>
 
 vector <ProdutoRanqueado> RecomendarProdutos(const ListaCompras &lista, const Matrizes &matriz, int cliente_alvo, int k){
     vector <int> indices_vizinhos;
