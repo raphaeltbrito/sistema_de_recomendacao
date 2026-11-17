@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < 3; i++) {
         char codigo_cliente_input[20];
-        printf("Digite o codigo do cliente %d de 3: ", i + 1);
+        printf("\nDigite o codigo do cliente %d de 3: ", i + 1);
         scanf("%19s", codigo_cliente_input);
         string cliente_alvo = codigo_cliente_input;
 
