@@ -39,13 +39,15 @@ int main(int argc, char *argv[]) {
                 printf ("Nao ha' outro cliente para comparar\n");
             }
 
+            printf("====PRODUTOS COMPRADOS====\n");
             vector<int> produtos = lista.prod_clientes[indice_cliente];
             for (int id_prod : produtos) {
                 string nome_externo = lista.nome_produtos[id_prod];
                 printf("  Produto Comprado: %s\n", nome_externo.c_str());
 
             }
-
+            
+            printf("====PRODUTOS RECOMENDADOS====\n");
             vector<ProdutoRanqueado> recomendados = RecomendarProdutos(lista, matriz, indice_cliente, 3);
 
             if (recomendados.size() == 0) {
