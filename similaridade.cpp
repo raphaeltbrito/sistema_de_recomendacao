@@ -1,18 +1,93 @@
 #include "similaridade.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-using namespace std;
+void *reservarMemoria(size_t tamanho) {
+    void *memoria = malloc(tamanho);
+
+    if (memoria == NULL) {
+        printf("Erro ao reservar memoria.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return memoria;
+}
+
+void liberarMatrizes(Matrizes &matriz) {
+    for (int i = 0; i < matriz.nClientes; i++) {
+        if (matriz.compras != NULL) {
+            free(matriz.compras[i]);
+        }
+
+        if (matriz.intersecao != NULL) {
+            free(matriz.intersecao[i]);
+        }
+
+        if (matriz.similaridade != NULL) {
+            free(matriz.similaridade[i]);
+        }
+    }
+
+    for (int i = 0; i < matriz.nProdutos; i++) {
+        if (matriz.transposta != NULL) {
+            free(matriz.transposta[i]);
+        }
+    }
+
+    free(matriz.compras);
+    free(matriz.transposta);
+    free(matriz.intersecao);
+    free(matriz.similaridade);
+
+    matriz.compras = NULL;
+    matriz.transposta = NULL;
+    matriz.intersecao = NULL;
+    matriz.similaridade = NULL;
+
+    matriz.nClientes = 0;
+    matriz.nProdutos = 0;
+}
 
 void montarMatrizcompras(const ListaCompras &lista, Matrizes &matriz) {
-    int nClientes = lista.cod_clientes.size(), nProdutos = lista.cod_produtos.size();
-    vector<int> linha;
-    matriz.compras.clear();
-    for (int i = 0; i < nProdutos ; i++) {
-        linha.push_back(0);
+    liberarMatrizes(matriz);
+
+    int nClientes = lista.cod_clientes.size();
+    int nProdutos = lista.cod_produtos.size();
+
+    if (nClientes == 0 || nProdutos == 0) {
+        return;
     }
+
+    matriz.nClientes = nClientes;
+    matriz.nProdutos = nProdutos;
+
+    matriz.compras = (int **) reservarMemoria(nClientes * sizeof(int *));
+
+    matriz.transposta = (int **) reservarMemoria(nProdutos * sizeof(int *));
+
+    matriz.intersecao = (int **) reservarMemoria(nClientes * sizeof(int *));
+
+    matriz.similaridade = (double **) reservarMemoria(nClientes * sizeof(double *));
+
     for (int i = 0; i < nClientes; i++) {
-        matriz.compras.push_back(linha);
+        matriz.compras[i] = (int *) reservarMemoria(nProdutos * sizeof(int));
+
+        matriz.intersecao[i] = (int *) reservarMemoria(nClientes * sizeof(int));
+
+        matriz.similaridade[i] = (double *) reservarMemoria(nClientes * sizeof(double));
     }
-    for (int i = 0; i < nClientes; i++){
+
+    for (int i = 0; i < nProdutos; i++) {
+        matriz.transposta[i] = (int *) reservarMemoria(nClientes * sizeof(int));
+    }
+
+    for (int i = 0; i < nClientes; i++) {
+        for (int j = 0; j < nProdutos; j++) {
+            matriz.compras[i][j] = 0;
+        }
+    }
+
+    for (int i = 0; i < nClientes; i++) {
         for (int j = 0; j < lista.prod_clientes[i].size(); j++) {
             int indiceProduto = lista.prod_clientes[i][j];
             matriz.compras[i][indiceProduto] = 1;
@@ -21,107 +96,67 @@ void montarMatrizcompras(const ListaCompras &lista, Matrizes &matriz) {
 }
 
 void montarMatriztransposta(Matrizes &matriz) {
-    matriz.transposta.clear();
-    if (matriz.compras.size() == 0){
-        return;
-    }
-    int nClientes = matriz.compras.size();
-    int nProdutos = matriz.compras[0].size();
-
-    vector<int> linha;
-
-    for (int i = 0; i < nClientes ; i++) {
-        linha.push_back(0);
-    }
-
-    for (int i = 0; i < nProdutos; i++) {
-        matriz.transposta.push_back(linha);
-}
-
-    for (int i = 0; i < nClientes; i++){
-        for (int j = 0; j < nProdutos; j++) {
+    for (int i = 0; i < matriz.nClientes; i++) {
+        for (int j = 0; j < matriz.nProdutos; j++) {
             matriz.transposta[j][i] = matriz.compras[i][j];
         }
     }
 }
 
 void montarMatrizintersecao(Matrizes &matriz) {
-    matriz.intersecao.clear();
-    if (matriz.compras.size() == 0){
-        return;
-    }
-    int nClientes = matriz.compras.size();
-    int nProdutos = matriz.compras[0].size();
-    
-    vector<int> linha;
-    for (int i = 0 ; i < nClientes; i++) {
-        linha.push_back(0);
-    }
-    for (int i = 0 ; i < nClientes; i++) {
-        matriz.intersecao.push_back(linha);
-    }
-   for (int i = 0; i < nClientes ; i++) {
-        for(int j = 0 ; j < nClientes; j++) {
-            for (int k = 0; k < nProdutos; k++){
-                 matriz.intersecao[i][j] += matriz.compras[i][k] * matriz.transposta[k][j];
+    for (int i = 0; i < matriz.nClientes; i++) {
+        for (int j = 0; j < matriz.nClientes; j++) {
+            matriz.intersecao[i][j] = 0;
+
+            for (int k = 0; k < matriz.nProdutos; k++) {
+                matriz.intersecao[i][j] +=
+                    matriz.compras[i][k] *
+                    matriz.transposta[k][j];
             }
         }
-   }
-    
+    }
 }
+
 void montarMatrizsimilaridade(Matrizes &matriz) {
-    matriz.similaridade.clear();
-    if (matriz.intersecao.size() == 0) {
-        return;
-    }
-
-    int nClientes = matriz.intersecao.size();
-
-    vector<double> linha;
-
-    for (int i = 0; i < nClientes; i++){
-        linha.push_back(0);
-    }
-    for (int i = 0; i < nClientes; i++){
-        matriz.similaridade.push_back(linha);
-    }
-    for (int i = 0; i < nClientes; i++){
-        for (int j = 0; j < nClientes; j++){
+    for (int i = 0; i < matriz.nClientes; i++) {
+        for (int j = 0; j < matriz.nClientes; j++) {
             if (matriz.intersecao[i][i] == 0) {
                 matriz.similaridade[i][j] = 1.0;
             } else {
-                 matriz.similaridade[i][j] = 1 - ((double) matriz.intersecao[i][j]/matriz.intersecao[i][i]);
-
+                matriz.similaridade[i][j] = 1.0 - ((double) matriz.intersecao[i][j] / 
+                matriz.intersecao[i][i]);
             }
         }
     }
 }
 
-ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo) {
+ResultadoBusca buscarMaisSimilar(
+    const Matrizes &matriz, int clienteAlvo
+) {
     ResultadoBusca resultado;
     resultado.indiceCliente = -1;
     resultado.valor = 2.0;
 
-    int nClientes = matriz.similaridade.size();
-
-    if (clienteAlvo < 0 || clienteAlvo >= nClientes){
-        printf("Nenhum cliente encontrado");
+    if (clienteAlvo < 0 || clienteAlvo >= matriz.nClientes) {
         return resultado;
     }
 
-    for (int j = 0; j < nClientes; j++) {
-        if ( j == clienteAlvo) {
+    if (matriz.similaridade == NULL) {
+        return resultado;
+    }
+
+    for (int j = 0; j < matriz.nClientes; j++) {
+        if (j == clienteAlvo) {
             continue;
         }
 
         double valorAtual = matriz.similaridade[clienteAlvo][j];
 
-        if (valorAtual < resultado.valor){
+        if (valorAtual < resultado.valor) {
             resultado.indiceCliente = j;
             resultado.valor = valorAtual;
         }
-        
-        
     }
+
     return resultado;
 }

@@ -1,22 +1,24 @@
 #ifndef similaridade_h
 #define similaridade_h
+
 #include "leitura.h"
-#include <vector>
-using namespace std;
 
 typedef struct {
-    vector<vector<int>> compras;
-    vector<vector<int>> transposta;
-    vector<vector<int>> intersecao;
-    vector<vector<double>> similaridade;
+    int **compras;
+    int **transposta;
+    int **intersecao;
+    double **similaridade;
+
+    int nClientes;
+    int nProdutos;
 } Matrizes;
 
 typedef struct {
-   int indiceCliente;
-   double valor;
+    int indiceCliente;
+    double valor;
 } ResultadoBusca;
 
-void montarMatrizcompras(const ListaCompras &lista, Matrizes &sim);
+void montarMatrizcompras(const ListaCompras &lista, Matrizes &matriz);
 
 void montarMatriztransposta(Matrizes &matriz);
 
@@ -25,5 +27,7 @@ void montarMatrizintersecao(Matrizes &matriz);
 void montarMatrizsimilaridade(Matrizes &matriz);
 
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo);
+
+void liberarMatrizes(Matrizes &matriz);
 
 #endif

@@ -10,4 +10,6 @@ typedef struct {
 
 vector <ProdutoRanqueado> RecomendarProdutos(const ListaCompras &lista, const Matrizes &matriz, int cliente_alvo, int k);
 
+bool RecomendarProdutos()
+
 #endif
