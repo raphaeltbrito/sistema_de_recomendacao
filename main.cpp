@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    Matrizes matriz;
+    Matrizes matriz = {};
 
     montarMatrizcompras(lista, matriz);
 
@@ -47,12 +47,24 @@ int main(int argc, char *argv[]) {
             }
 
             vector<ProdutoRanqueado> recomendados = RecomendarProdutos(lista, matriz, indice_cliente, 3);
+
+            if (recomendados.size() == 0) {
+                printf("Nenhum produto disponivel para recomendacao\n");
+            }
+
+            for(int j = 0; j < recomendados.size(); j++){
+                int produto = recomendados[j].indice_produto_ranking;
+                string nome_recomendado = lista.nome_produtos[produto];
+                printf("Produto recomendado: %s\n", nome_recomendado.c_str());
+            }
             
         } else {
             printf("\nCliente %s nao encontrado.\n", cliente_alvo.c_str());
         }
 
     }
+    
+    liberarMatrizes(matriz);
 
     return 0;
 }

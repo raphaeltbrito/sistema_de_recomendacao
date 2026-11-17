@@ -8,8 +8,9 @@ typedef struct {
    double valor_R;
 } ProdutoRanqueado;
 
-vector <ProdutoRanqueado> RecomendarProdutos(const ListaCompras &lista, const Matrizes &matriz, int cliente_alvo, int k);
+bool compararRanking (const ProdutoRanqueado &a , const ProdutoRanqueado &b);
 
-bool RecomendarProdutos()
+vector <ProdutoRanqueado> RecomendarProdutos(const ListaCompras &lista, const Matrizes &matriz, int cliente_alvo, int numeroRecomendacoes);
+
 
 #endif
