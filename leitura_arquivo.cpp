@@ -5,7 +5,6 @@ using namespace std;
 
 
 int leitura(int argc, char *argv[], ListaCompras &lista) {
-    // Verifica se o nome do arquivo foi informado.
     if (argc != 2) {
         printf("Uso: %s <arquivo.csv>\n", argv[0]);
         return 1;
@@ -20,7 +19,6 @@ int leitura(int argc, char *argv[], ListaCompras &lista) {
 
     Dados d;
 
-    // Descarta o cabeçalho sem armazená-lo.
     fscanf(arquivo, "%*[^\n]");
 
 

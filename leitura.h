@@ -2,8 +2,8 @@
 #define leitura_h
 
 #include <vector>
-#include <iostream>
 #include <map>
+#include <string>
 using namespace std;
 
 typedef struct {
