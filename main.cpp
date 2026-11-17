@@ -22,10 +22,11 @@ int main(int argc, char *argv[]) {
 
     montarMatrizsimilaridade(matriz);
 
-    string clientes_teste[3] = {"99CL9Y01", "9O6OSM01", "99EF7201"};
-
     for (int i = 0; i < 3; i++) {
-        string cliente_alvo = clientes_teste[i];
+        char codigo_cliente_input[20];
+        printf("Digite o codigo do cliente %d de 3: ", i + 1);
+        scanf("%19s", codigo_cliente_input);
+        string cliente_alvo = codigo_cliente_input;
 
         if (lista.map_clientes.find(cliente_alvo) != lista.map_clientes.end()) {
             int indice_cliente = lista.map_clientes[cliente_alvo];
