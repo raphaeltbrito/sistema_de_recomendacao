@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
             vector<int> produtos = lista.prod_clientes[indice_cliente];
             for (int id_prod : produtos) {
                 string nome_externo = lista.nome_produtos[id_prod];
-                printf("  Produto: %s\n", nome_externo.c_str());
+                printf("  Produto Comprado: %s\n", nome_externo.c_str());
 
             }
 
