@@ -26,6 +26,8 @@ void montarMatrizintersecao(Matrizes &matriz);
 
 void montarMatrizsimilaridade(Matrizes &matriz);
 
+void matriz_multiplica_transposta(Matrizes &matriz);
+
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo);
 
 void liberarMatrizes(Matrizes &matriz);

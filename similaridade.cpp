@@ -157,6 +157,47 @@ void montarMatrizintersecao(Matrizes &matriz) {
     }
 }
 
+void matriz_multiplica_transposta(Matrizes &matriz){
+    if (matriz.nClientes == 0 || matriz.nProdutos == 0){
+        return;
+    }
+    
+    matriz.intersecao = (int**) malloc(sizeof(int *) * matriz.nClientes);
+
+    if (matriz.intersecao == NULL) {
+        printf("Falha ao alocar a matriz intersecao !!! ");
+        liberarMatrizes(matriz);
+        return;
+    }
+
+    for (int i = 0; i < matriz.nClientes; i++){
+        matriz.intersecao[i] = NULL;
+    }
+    for (int i = 0 ; i < matriz.nClientes; i++) {
+        matriz.intersecao[i] = (int *) malloc (sizeof(int) * matriz.nClientes);
+        if (matriz.intersecao[i] == NULL){
+                printf("Falha ao alocar a linha %d da matriz intersecao!!", i);
+                liberarMatrizes(matriz);
+                return;
+        }
+    }
+
+    matriz.nClientes;
+    matriz.nProdutos;
+    matriz.intersecao;
+
+    for (int i = 0; i < matriz.nClientes; i++){
+        for (int j = i; j <matriz.nClientes; j++){
+            int produtos_em_comum = 0;
+            for (int k = 0; k < matriz.nProdutos; k++){
+                produtos_em_comum = produtos_em_comum + matriz.compras[i][k] * matriz.compras[j][k];
+            }
+            matriz.intersecao[i][j] = produtos_em_comum;
+            matriz.intersecao[j][i] = produtos_em_comum;
+        }
+    }
+}
+
 void montarMatrizsimilaridade(Matrizes &matriz) {
     if (matriz.nClientes == 0 || matriz.nProdutos == 0){
         return;
