@@ -22,6 +22,12 @@ int main(int argc, char *argv[]) {
 
     montarMatrizsimilaridade(matriz);
 
+    if (matriz.similaridade == NULL){
+        printf("Não foi possível construir as matrizes !!");
+        liberarMatrizes(matriz);
+        return 1;
+    }
+
     for (int i = 0; i < 3; i++) {
         char codigo_cliente_input[20];
         printf("\nDigite o codigo do cliente %d de 3: ", i + 1);
@@ -46,7 +52,7 @@ int main(int argc, char *argv[]) {
                 printf("  Produto Comprado: %s\n", nome_externo.c_str());
 
             }
-            
+
             printf("====PRODUTOS RECOMENDADOS====\n");
             vector<ProdutoRanqueado> recomendados = RecomendarProdutos(lista, matriz, indice_cliente, 3);
 

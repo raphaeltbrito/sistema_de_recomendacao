@@ -2,17 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void *reservarMemoria(size_t tamanho) {
-    void *memoria = malloc(tamanho);
-
-    if (memoria == NULL) {
-        printf("Erro ao reservar memoria.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    return memoria;
-}
-
 void liberarMatrizes(Matrizes &matriz) {
     for (int i = 0; i < matriz.nClientes; i++) {
         if (matriz.compras != NULL) {
@@ -61,33 +50,35 @@ void montarMatrizcompras(const ListaCompras &lista, Matrizes &matriz) {
     matriz.nClientes = nClientes;
     matriz.nProdutos = nProdutos;
 
-    matriz.compras = (int **) reservarMemoria(nClientes * sizeof(int *));
+    matriz.compras = (int**) malloc(sizeof(int *) * nClientes);
 
-    matriz.transposta = (int **) reservarMemoria(nProdutos * sizeof(int *));
-
-    matriz.intersecao = (int **) reservarMemoria(nClientes * sizeof(int *));
-
-    matriz.similaridade = (double **) reservarMemoria(nClientes * sizeof(double *));
-
-    for (int i = 0; i < nClientes; i++) {
-        matriz.compras[i] = (int *) reservarMemoria(nProdutos * sizeof(int));
-
-        matriz.intersecao[i] = (int *) reservarMemoria(nClientes * sizeof(int));
-
-        matriz.similaridade[i] = (double *) reservarMemoria(nClientes * sizeof(double));
+    if (matriz.compras == NULL) {
+        printf("Falha ao alocar a matriz das compras !!! ");
+        matriz.nClientes = 0;
+        matriz.nProdutos = 0;
+        return;
     }
 
-    for (int i = 0; i < nProdutos; i++) {
-        matriz.transposta[i] = (int *) reservarMemoria(nClientes * sizeof(int));
+    for (int i = 0; i < nClientes; i++){
+        matriz.compras[i] = NULL;
     }
 
-    for (int i = 0; i < nClientes; i++) {
-        for (int j = 0; j < nProdutos; j++) {
+    for (int i = 0; i < nClientes; i++){
+        matriz.compras[i] = (int *) malloc (sizeof(int) * nProdutos);
+        if (matriz.compras[i] == NULL){
+            printf("Falha ao alocar a linha %d da matriz de compras!!", i);
+            liberarMatrizes(matriz);
+            return;
+        }
+    }
+
+    for (int i = 0; i < nClientes; i++){
+        for (int j = 0; j < nProdutos; j++){
             matriz.compras[i][j] = 0;
         }
     }
 
-    for (int i = 0; i < nClientes; i++) {
+    for (int i = 0; i < nClientes; i++){
         for (int j = 0; j < lista.prod_clientes[i].size(); j++) {
             int indiceProduto = lista.prod_clientes[i][j];
             matriz.compras[i][indiceProduto] = 1;
@@ -96,14 +87,63 @@ void montarMatrizcompras(const ListaCompras &lista, Matrizes &matriz) {
 }
 
 void montarMatriztransposta(Matrizes &matriz) {
+    if (matriz.nClientes == 0 || matriz.nProdutos == 0){
+        return;
+    }
+
+    matriz.transposta = (int**) malloc(sizeof(int *) * matriz.nProdutos);
+
+    if (matriz.transposta == NULL) {
+        printf("Falha ao alocar a matriz transposta !!! ");
+        liberarMatrizes(matriz);
+        return;
+    }
+
+    for (int i = 0 ; i < matriz.nProdutos ; i++){
+        matriz.transposta[i] = NULL;
+    }
+
+    for (int i = 0 ; i < matriz.nProdutos; i++) {
+        matriz.transposta[i] = (int *) malloc (sizeof(int) * matriz.nClientes);
+        if (matriz.transposta[i] == NULL){
+                printf("Falha ao alocar a linha %d da matriz transposta!!", i);
+                liberarMatrizes(matriz);
+                return;
+        }
+    }
+
     for (int i = 0; i < matriz.nClientes; i++) {
-        for (int j = 0; j < matriz.nProdutos; j++) {
+        for (int j = 0; j < matriz.nProdutos; j++){
             matriz.transposta[j][i] = matriz.compras[i][j];
         }
     }
 }
 
 void montarMatrizintersecao(Matrizes &matriz) {
+    if (matriz.nClientes == 0 || matriz.nProdutos == 0){
+        return;
+    }
+    
+    matriz.intersecao = (int**) malloc(sizeof(int *) * matriz.nClientes);
+
+    if (matriz.intersecao == NULL) {
+        printf("Falha ao alocar a matriz intersecao !!! ");
+        liberarMatrizes(matriz);
+        return;
+    }
+
+    for (int i = 0; i < matriz.nClientes; i++){
+        matriz.intersecao[i] = NULL;
+    }
+    for (int i = 0 ; i < matriz.nClientes; i++) {
+        matriz.intersecao[i] = (int *) malloc (sizeof(int) * matriz.nClientes);
+        if (matriz.intersecao[i] == NULL){
+                printf("Falha ao alocar a linha %d da matriz intersecao!!", i);
+                liberarMatrizes(matriz);
+                return;
+        }
+    }
+
     for (int i = 0; i < matriz.nClientes; i++) {
         for (int j = 0; j < matriz.nClientes; j++) {
             matriz.intersecao[i][j] = 0;
@@ -118,6 +158,31 @@ void montarMatrizintersecao(Matrizes &matriz) {
 }
 
 void montarMatrizsimilaridade(Matrizes &matriz) {
+    if (matriz.nClientes == 0 || matriz.nProdutos == 0){
+        return;
+    }
+    
+    matriz.similaridade = (double**) malloc(sizeof(double *) * matriz.nClientes);
+
+    if (matriz.similaridade == NULL) {
+        printf("Falha ao alocar a matriz similaridade !!! ");
+        liberarMatrizes(matriz);
+        return;
+    }
+
+    for (int i = 0; i < matriz.nClientes; i++){
+        matriz.similaridade[i] = NULL;
+    }
+
+    for (int i = 0 ; i < matriz.nClientes; i++) {
+        matriz.similaridade[i] = (double *) malloc (sizeof(double) * matriz.nClientes);
+        if (matriz.similaridade[i] == NULL){
+                printf("Falha ao alocar a linha %d da matriz similaridade!!", i);
+                liberarMatrizes(matriz);
+                return;
+        }
+    }
+
     for (int i = 0; i < matriz.nClientes; i++) {
         for (int j = 0; j < matriz.nClientes; j++) {
             if (matriz.intersecao[i][i] == 0) {
@@ -130,9 +195,7 @@ void montarMatrizsimilaridade(Matrizes &matriz) {
     }
 }
 
-ResultadoBusca buscarMaisSimilar(
-    const Matrizes &matriz, int clienteAlvo
-) {
+ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo) {
     ResultadoBusca resultado;
     resultado.indiceCliente = -1;
     resultado.valor = 2.0;
