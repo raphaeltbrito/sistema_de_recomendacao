@@ -1,6 +1,7 @@
 #include "similaridade.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctime>
 
 void liberarMatrizes(Matrizes &matriz) {
     for (int i = 0; i < matriz.nClientes; i++) {
@@ -199,9 +200,9 @@ void matriz_multiplica_transposta(Matrizes &matriz){
 }
 
 void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo){
-    printf("digite a opcao do algoritmo:");
+    printf("\ndigite a opcao do algoritmo: ");
     scanf("%d", &opcao_algoritmo);
-    
+
     if (opcao_algoritmo == 1){
         montarMatriztransposta(matriz);
         montarMatrizintersecao(matriz);
@@ -248,6 +249,25 @@ void montarMatrizsimilaridade(Matrizes &matriz) {
             }
         }
     }
+}
+
+void calcular_tempo(Matrizes &matriz){
+    clock_t inicio_antigo = clock();
+    montarMatriztransposta(matriz);
+    montarMatrizintersecao(matriz);
+    clock_t fim_antigo = clock();
+    double tempo_antigo = double(fim_antigo - inicio_antigo) / CLOCKS_PER_SEC;
+
+    printf("\nTempo no algoritmo antigo (em segundos): %f", tempo_antigo);
+
+    clock_t inicio_novo = clock();
+    matriz_multiplica_transposta(matriz);
+    clock_t fim_novo = clock();
+    double tempo_novo = double(fim_novo - inicio_novo) / CLOCKS_PER_SEC;
+
+    printf("\nTempo no algoritmo novo (em segundos): %f", tempo_novo);
+
+    printf("\nDiferenca de tempo entre algoritmo antigo e algoritmo novo (em segundos): %f" , tempo_antigo - tempo_novo);
 }
 
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo) {

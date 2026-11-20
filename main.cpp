@@ -19,6 +19,8 @@ int main(int argc, char *argv[]) {
 
     escolher_algoritmo(matriz, opcao_algoritmo);
 
+    calcular_tempo(matriz);
+
     montarMatrizsimilaridade(matriz);
 
     if (matriz.similaridade == NULL){

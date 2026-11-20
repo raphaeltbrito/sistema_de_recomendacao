@@ -30,6 +30,8 @@ void matriz_multiplica_transposta(Matrizes &matriz);
 
 void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo);
 
+void calcular_tempo(Matrizes &matriz);
+
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo);
 
 void liberarMatrizes(Matrizes &matriz);
