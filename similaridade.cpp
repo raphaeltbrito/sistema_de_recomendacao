@@ -198,6 +198,20 @@ void matriz_multiplica_transposta(Matrizes &matriz){
     }
 }
 
+void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo){
+    printf("digite a opcao do algoritmo:");
+    scanf("%d", &opcao_algoritmo);
+    
+    if (opcao_algoritmo == 1){
+        montarMatriztransposta(matriz);
+        montarMatrizintersecao(matriz);
+    } else if (opcao_algoritmo == 2){
+        matriz_multiplica_transposta(matriz);
+    } else {
+        printf("escolha de numero invalida");
+    }
+}
+
 void montarMatrizsimilaridade(Matrizes &matriz) {
     if (matriz.nClientes == 0 || matriz.nProdutos == 0){
         return;

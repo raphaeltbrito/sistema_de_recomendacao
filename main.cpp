@@ -13,12 +13,11 @@ int main(int argc, char *argv[]) {
     }
 
     Matrizes matriz = {};
+    int opcao_algoritmo;
 
     montarMatrizcompras(lista, matriz);
 
-    montarMatriztransposta(matriz);
-
-    montarMatrizintersecao(matriz);
+    escolher_algoritmo(matriz, opcao_algoritmo);
 
     montarMatrizsimilaridade(matriz);
 

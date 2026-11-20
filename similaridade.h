@@ -28,6 +28,8 @@ void montarMatrizsimilaridade(Matrizes &matriz);
 
 void matriz_multiplica_transposta(Matrizes &matriz);
 
+void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo);
+
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo);
 
 void liberarMatrizes(Matrizes &matriz);
