@@ -200,9 +200,6 @@ void matriz_multiplica_transposta(Matrizes &matriz){
 }
 
 void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo){
-    printf("\ndigite a opcao do algoritmo: ");
-    scanf("%d", &opcao_algoritmo);
-
     if (opcao_algoritmo == 1){
         montarMatriztransposta(matriz);
         montarMatrizintersecao(matriz);
