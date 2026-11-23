@@ -93,7 +93,7 @@ void montarMatriztransposta(Matrizes &matriz) {
     }
 
     if (matriz.transposta != NULL){
-        for (int i = 0; i < matriz.nClientes; i++){
+        for (int i = 0; i < matriz.nProdutos; i++){
             free(matriz.transposta[i]);
         }
 
@@ -179,6 +179,15 @@ void montarMatrizintersecao(Matrizes &matriz) {
 void matriz_multiplica_transposta(Matrizes &matriz){
     if (matriz.nClientes == 0 || matriz.nProdutos == 0){
         return;
+    }
+
+    if (matriz.intersecao != NULL){
+        for (int i = 0; i < matriz.nClientes; i++){
+            free(matriz.intersecao[i]);
+        }
+
+        free(matriz.intersecao);
+        matriz.intersecao = NULL;
     }
     
     matriz.intersecao = (int**) malloc(sizeof(int *) * matriz.nClientes);
