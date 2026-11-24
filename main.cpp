@@ -3,14 +3,78 @@
 #include <iostream>
 #include <stdio.h>
 #include "recomendacao.h"
+#include "esparsa.h"
 
 int main(int argc, char *argv[]) {
     ListaCompras lista;
+    MatrizCSR comprasCSR = {};
+    MatrizCSR intersecaoCSR = {};
+    
 
     if (leitura(argc, argv, lista) != 0) {
         printf("Erro ao ler o arquivo.\n");
         return 1;
     }
+
+
+    montarComprasCSR(lista,comprasCSR);
+
+    if (comprasCSR.row_ptr == NULL){
+        return 1;
+    }
+
+
+    montarIntersecaoCSR (comprasCSR, intersecaoCSR);
+
+    if (intersecaoCSR.row_ptr == NULL){
+        LiberarCSR(comprasCSR);
+        return 1;
+    }
+
+    printf("\n=== INTERSECAO CSR ===\n");
+
+    printf("row_ptr: ");
+    for (int i = 0; i <= intersecaoCSR.nLinhas; i++){
+        printf("%d ", intersecaoCSR.row_ptr[i]);
+    }
+    printf("\n");
+
+    printf("col_index: ");
+    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
+        printf("%d ",intersecaoCSR.col_index[i]);
+    }
+    printf("\n");
+
+    printf("values: ");
+    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
+        printf("%.0f ",intersecaoCSR.values[i]);
+    }
+    printf("\n");
+
+    printf("\n=== COMPRAS CSR ===\n");
+        
+    printf("row_ptr: ");
+    for (int i = 0; i <= comprasCSR.nLinhas; i++){
+        printf("%d ", comprasCSR.row_ptr[i]);
+    }
+    printf("\n");
+
+    printf("col_index: ");
+    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
+        printf("%d ",comprasCSR.col_index[i]);
+    }
+    printf("\n");
+
+    printf("values: ");
+    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
+        printf("%.0f ",comprasCSR.values[i]);
+    }
+    printf("\n");
+
+
+    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 0));
+    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 1));
+    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 3));
 
     Matrizes matriz = {};
     int opcao_algoritmo;
@@ -76,6 +140,8 @@ int main(int argc, char *argv[]) {
     }
     
     liberarMatrizes(matriz);
+    LiberarCSR(comprasCSR);
+    LiberarCSR(intersecaoCSR);
 
     return 0;
 }
