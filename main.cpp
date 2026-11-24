@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 
     calcular_tempo(matriz);
     
-    printf("\ndigite a opcao do algoritmo: ");
+    printf("\ndigite a opcao do algoritmo (1 para algoritmo antigo e 2 para algoritmo novo): ");
     scanf("%d", &opcao_algoritmo);
     escolher_algoritmo(matriz, opcao_algoritmo);
 
