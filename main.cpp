@@ -32,49 +32,12 @@ int main(int argc, char *argv[]) {
     }
 
     printf("\n=== INTERSECAO CSR ===\n");
-
-    printf("row_ptr: ");
-    for (int i = 0; i <= intersecaoCSR.nLinhas; i++){
-        printf("%d ", intersecaoCSR.row_ptr[i]);
-    }
-    printf("\n");
-
-    printf("col_index: ");
-    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
-        printf("%d ",intersecaoCSR.col_index[i]);
-    }
-    printf("\n");
-
-    printf("values: ");
-    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
-        printf("%.0f ",intersecaoCSR.values[i]);
-    }
-    printf("\n");
+    printf("Linhas: %d\n", intersecaoCSR.nLinhas);
+    printf("Elementos nao nulos: %d\n", intersecaoCSR.qntElementosnaoNulos);
 
     printf("\n=== COMPRAS CSR ===\n");
-        
-    printf("row_ptr: ");
-    for (int i = 0; i <= comprasCSR.nLinhas; i++){
-        printf("%d ", comprasCSR.row_ptr[i]);
-    }
-    printf("\n");
-
-    printf("col_index: ");
-    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
-        printf("%d ",comprasCSR.col_index[i]);
-    }
-    printf("\n");
-
-    printf("values: ");
-    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
-        printf("%.0f ",comprasCSR.values[i]);
-    }
-    printf("\n");
-
-
-    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 0));
-    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 1));
-    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 3));
+    printf("Linhas: %d\n", comprasCSR.nLinhas);
+    printf("Elementos nao nulos: %d\n", comprasCSR.qntElementosnaoNulos);
 
     Matrizes matriz = {};
     int opcao_algoritmo;
