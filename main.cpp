@@ -31,50 +31,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    printf("\n=== INTERSECAO CSR ===\n");
-
-    printf("row_ptr: ");
-    for (int i = 0; i <= intersecaoCSR.nLinhas; i++){
-        printf("%d ", intersecaoCSR.row_ptr[i]);
-    }
-    printf("\n");
-
-    printf("col_index: ");
-    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
-        printf("%d ",intersecaoCSR.col_index[i]);
-    }
-    printf("\n");
-
-    printf("values: ");
-    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
-        printf("%.0f ",intersecaoCSR.values[i]);
-    }
-    printf("\n");
-
-    printf("\n=== COMPRAS CSR ===\n");
-        
-    printf("row_ptr: ");
-    for (int i = 0; i <= comprasCSR.nLinhas; i++){
-        printf("%d ", comprasCSR.row_ptr[i]);
-    }
-    printf("\n");
-
-    printf("col_index: ");
-    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
-        printf("%d ",comprasCSR.col_index[i]);
-    }
-    printf("\n");
-
-    printf("values: ");
-    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
-        printf("%.0f ",comprasCSR.values[i]);
-    }
-    printf("\n");
-
-
-    printf("C[0][0] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 0));
-    printf("C[0][1] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 1));
-    printf("C[0][3] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 3));
 
     Matrizes matriz = {};
     int opcao_algoritmo;
@@ -98,7 +54,10 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < 3; i++) {
         char codigo_cliente_input[20];
         printf("\nDigite o codigo do cliente %d de 3: ", i + 1);
-        scanf("%19s", codigo_cliente_input);
+        if (scanf("%19s", codigo_cliente_input) != 1) {
+            printf("Erro ao ler o codigo do cliente.\n");
+            break;
+        }
         string cliente_alvo = codigo_cliente_input;
 
         if (lista.map_clientes.find(cliente_alvo) != lista.map_clientes.end()) {
@@ -126,7 +85,7 @@ int main(int argc, char *argv[]) {
                 printf("Nenhum produto disponivel para recomendacao\n");
             }
 
-            for(int j = 0; j < recomendados.size(); j++){
+            for(size_t j = 0; j < recomendados.size(); j++){
                 int produto = recomendados[j].indice_produto_ranking;
                 string nome_recomendado = lista.nome_produtos[produto];
                 printf("Produto recomendado: %s\n", nome_recomendado.c_str());
