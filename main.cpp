@@ -72,9 +72,9 @@ int main(int argc, char *argv[]) {
     printf("\n");
 
 
-    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 0));
-    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 1));
-    printf("%.0f\n", produtoLinhasCSR(comprasCSR, 0, 3));
+    printf("C[0][0] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 0));
+    printf("C[0][1] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 1));
+    printf("C[0][3] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 3));
 
     Matrizes matriz = {};
     int opcao_algoritmo;
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
 
         if (lista.map_clientes.find(cliente_alvo) != lista.map_clientes.end()) {
             int indice_cliente = lista.map_clientes[cliente_alvo];
-            ResultadoBusca resultado = buscarMaisSimilar(matriz, indice_cliente);
+            ResultadoBusca resultado = buscarMaisSimilar(intersecaoCSR, indice_cliente);
             printf("\nCliente: %s \nProdutos (nomes):\n", cliente_alvo.c_str());
 
             if (resultado.indiceCliente != -1){
@@ -121,8 +121,7 @@ int main(int argc, char *argv[]) {
             }
 
             printf("====PRODUTOS RECOMENDADOS====\n");
-            vector<ProdutoRanqueado> recomendados = RecomendarProdutos(lista, matriz, indice_cliente, 3);
-
+            vector<ProdutoRanqueado> recomendados = RecomendarProdutos(comprasCSR, intersecaoCSR, indice_cliente, 3);
             if (recomendados.size() == 0) {
                 printf("Nenhum produto disponivel para recomendacao\n");
             }

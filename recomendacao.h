@@ -12,5 +12,7 @@ bool compararRanking (const ProdutoRanqueado &a , const ProdutoRanqueado &b);
 
 vector <ProdutoRanqueado> RecomendarProdutos(const ListaCompras &lista, const Matrizes &matriz, int cliente_alvo, int numeroRecomendacoes);
 
+vector <ProdutoRanqueado> RecomendarProdutos(const MatrizCSR &compras, const MatrizCSR &intersecao, int cliente_alvo, int numeroRecomendacoes);
+
 
 #endif

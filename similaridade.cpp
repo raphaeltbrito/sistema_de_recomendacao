@@ -322,3 +322,43 @@ ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo) {
 
     return resultado;
 }
+
+double calcularDistanciaCSR(const MatrizCSR &intersecao, int i, int j) {
+    double totalCliente = consultarValorCSR(intersecao, i, i);
+
+    if (totalCliente == 0.0) {
+        return 1.0;
+    }
+
+    double emComum = consultarValorCSR(intersecao, i, j);
+    
+    return 1.0 - emComum / totalCliente;
+}
+ResultadoBusca buscarMaisSimilar(const MatrizCSR &intersecao, int indice_cliente) {
+    ResultadoBusca resultado;
+    resultado.indiceCliente = -1;
+    resultado.valor = 2.0;
+
+    if (indice_cliente < 0 || indice_cliente >= intersecao.nLinhas) {
+        return resultado;
+    }
+
+    if (intersecao.values == NULL) {
+        return resultado;
+    }
+
+    for (int j = 0; j < intersecao.nLinhas; j++) {
+        if (j == indice_cliente) {
+            continue;
+        }
+
+        double valorAtual = calcularDistanciaCSR(intersecao, indice_cliente, j);
+
+        if (valorAtual < resultado.valor) {
+            resultado.indiceCliente = j;
+            resultado.valor = valorAtual;
+        }
+    }
+
+    return resultado;
+}

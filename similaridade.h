@@ -2,6 +2,7 @@
 #define similaridade_h
 
 #include "leitura.h"
+#include "esparsa.h"
 
 typedef struct {
     int **compras;
@@ -35,5 +36,9 @@ void calcular_tempo(Matrizes &matriz);
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo);
 
 void liberarMatrizes(Matrizes &matriz);
+
+double calcularDistanciaCSR(const MatrizCSR &intersecao, int i, int j);
+
+ResultadoBusca buscarMaisSimilar(const MatrizCSR &intersecao, int indice_cliente);
 
 #endif
