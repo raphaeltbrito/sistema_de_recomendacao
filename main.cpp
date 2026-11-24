@@ -16,12 +16,12 @@ int main(int argc, char *argv[]) {
     int opcao_algoritmo;
 
     montarMatrizcompras(lista, matriz);
+
+    calcular_tempo(matriz);
     
     printf("\ndigite a opcao do algoritmo: ");
     scanf("%d", &opcao_algoritmo);
     escolher_algoritmo(matriz, opcao_algoritmo);
-
-    calcular_tempo(matriz);
 
     montarMatrizsimilaridade(matriz);
 
