@@ -182,4 +182,3 @@ void montarIntersecaoCSR (const MatrizCSR &matriz, MatrizCSR &intersecao){
     }
 
 }
-
