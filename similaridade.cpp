@@ -279,16 +279,25 @@ void calcular_tempo(Matrizes &matriz){
     clock_t inicio_antigo = clock();
     montarMatriztransposta(matriz);
     montarMatrizintersecao(matriz);
+    montarMatrizsimilaridade(matriz);
     clock_t fim_antigo = clock();
     double tempo_antigo = double(fim_antigo - inicio_antigo) / CLOCKS_PER_SEC;
-
     printf("\nTempo no algoritmo antigo (em segundos): %f", tempo_antigo);
+
+    for (int i = 0; i < matriz.nClientes; i++) {
+        if (matriz.similaridade != NULL) {
+            free(matriz.similaridade[i]);
+        }
+    }
+    free(matriz.similaridade);
+    matriz.similaridade = NULL;
+
 
     clock_t inicio_novo = clock();
     matriz_multiplica_transposta(matriz);
+    montarMatrizsimilaridade(matriz);
     clock_t fim_novo = clock();
     double tempo_novo = double(fim_novo - inicio_novo) / CLOCKS_PER_SEC;
-
     printf("\nTempo no algoritmo novo (em segundos): %f", tempo_novo);
 
     printf("\nDiferenca de tempo entre algoritmo antigo e algoritmo novo (em segundos): %f" , tempo_antigo - tempo_novo);
@@ -297,7 +306,7 @@ void calcular_tempo(Matrizes &matriz){
 ResultadoBusca buscarMaisSimilar(const Matrizes &matriz, int clienteAlvo) {
     ResultadoBusca resultado;
     resultado.indiceCliente = -1;
-    resultado.valor = 2.0;
+    resultado.valor = 1.0;
 
     if (clienteAlvo < 0 || clienteAlvo >= matriz.nClientes) {
         return resultado;
