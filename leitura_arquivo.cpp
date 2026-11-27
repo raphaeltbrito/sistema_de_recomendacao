@@ -57,9 +57,6 @@ int leitura(int argc, char *argv[], ListaCompras &lista) {
 
     }
 
-    printf("Clientes: %d\n", (int)lista.cod_clientes.size());  
-    printf("Produtos: %d\n", (int)lista.cod_produtos.size()); 
-
     fclose(arquivo);
 
     return 0;

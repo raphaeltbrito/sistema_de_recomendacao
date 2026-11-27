@@ -32,60 +32,23 @@ int main(int argc, char *argv[]) {
     }
 
     printf("\n=== INTERSECAO CSR ===\n");
-
-    printf("row_ptr: ");
-    for (int i = 0; i <= intersecaoCSR.nLinhas; i++){
-        printf("%d ", intersecaoCSR.row_ptr[i]);
-    }
-    printf("\n");
-
-    printf("col_index: ");
-    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
-        printf("%d ",intersecaoCSR.col_index[i]);
-    }
-    printf("\n");
-
-    printf("values: ");
-    for (int i = 0; i < intersecaoCSR.qntElementosnaoNulos; i++){
-        printf("%.0f ",intersecaoCSR.values[i]);
-    }
-    printf("\n");
+    printf("Linhas: %d\n", intersecaoCSR.nLinhas);
+    printf("Elementos nao nulos: %d\n", intersecaoCSR.qntElementosnaoNulos);
 
     printf("\n=== COMPRAS CSR ===\n");
-        
-    printf("row_ptr: ");
-    for (int i = 0; i <= comprasCSR.nLinhas; i++){
-        printf("%d ", comprasCSR.row_ptr[i]);
-    }
-    printf("\n");
-
-    printf("col_index: ");
-    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
-        printf("%d ",comprasCSR.col_index[i]);
-    }
-    printf("\n");
-
-    printf("values: ");
-    for (int i = 0; i < comprasCSR.qntElementosnaoNulos; i++){
-        printf("%.0f ",comprasCSR.values[i]);
-    }
-    printf("\n");
-
-
-    printf("C[0][0] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 0));
-    printf("C[0][1] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 1));
-    printf("C[0][3] = %.0f\n", consultarValorCSR(intersecaoCSR, 0, 3));
+    printf("Linhas: %d\n", comprasCSR.nLinhas);
+    printf("Elementos nao nulos: %d\n", comprasCSR.qntElementosnaoNulos);
 
     Matrizes matriz = {};
     int opcao_algoritmo;
 
     montarMatrizcompras(lista, matriz);
-    
-    printf("\ndigite a opcao do algoritmo: ");
-    scanf("%d", &opcao_algoritmo);
-    escolher_algoritmo(matriz, opcao_algoritmo);
 
     calcular_tempo(matriz);
+    
+    printf("\ndigite a opcao do algoritmo (1 para algoritmo antigo e 2 para algoritmo novo): ");
+    scanf("%d", &opcao_algoritmo);
+    escolher_algoritmo(matriz, opcao_algoritmo);
 
     montarMatrizsimilaridade(matriz);
 
