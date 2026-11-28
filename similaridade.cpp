@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctime>
+#include "recomendacao.h"
 
 void liberarMatrizes(Matrizes &matriz) {
     for (int i = 0; i < matriz.nClientes; i++) {
@@ -226,14 +227,65 @@ void matriz_multiplica_transposta(Matrizes &matriz){
     }
 }
 
-void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo){
+void escolher_algoritmo (ListaCompras &lista, Matrizes &matriz, MatrizCSR &comprasCSR, MatrizCSR &intersecaoCSR){
+    int opcao_algoritmo;
+    printf("digite a opcao escolhida do algoritmo: (1 para A3 / 2 para A4 / 3 para A5): ");
+    scanf("%d", &opcao_algoritmo);
+
     if (opcao_algoritmo == 1){
+        montarMatrizcompras(lista, matriz);
         montarMatriztransposta(matriz);
         montarMatrizintersecao(matriz);
+        montarMatrizsimilaridade(matriz);
     } else if (opcao_algoritmo == 2){
+        montarMatrizcompras(lista, matriz);
         matriz_multiplica_transposta(matriz);
+        montarMatrizsimilaridade(matriz);
+    } else if (opcao_algoritmo == 3){
+        montarComprasCSR(lista, comprasCSR);
+        montarIntersecaoCSR(comprasCSR, intersecaoCSR);
     } else {
-        printf("escolha de numero invalida");
+        printf("escolha de numero invalida\n");
+        return;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        char codigo_cliente_input[20];
+        printf("\nDigite o codigo do cliente %d de 3: ", i + 1);
+        scanf("%19s", codigo_cliente_input);
+        string cliente_alvo = codigo_cliente_input;
+
+        if (lista.map_clientes.find(cliente_alvo) != lista.map_clientes.end()) {
+            int indice_cliente = lista.map_clientes[cliente_alvo];
+
+            printf("====PRODUTOS RECOMENDADOS====\n");
+            
+            if (opcao_algoritmo == 1 || opcao_algoritmo == 2) {
+                vector<ProdutoRanqueado> produtos_recomendados = RecomendarProdutos(lista, matriz, indice_cliente, 3);
+                if (produtos_recomendados.size() == 0) {
+                    printf("Nenhum produto disponivel para recomendacao\n");
+                }
+
+                for(int j = 0; j < produtos_recomendados.size(); j++){
+                    int produto = produtos_recomendados[j].indice_produto_ranking;
+                    string nome_recomendado = lista.nome_produtos[produto];
+                    printf("Produto recomendado: %s\n", nome_recomendado.c_str());
+                }
+            } else if (opcao_algoritmo == 3){
+                vector<ProdutoRanqueado> produtos_recomendados_CSR = RecomendarProdutos(comprasCSR, intersecaoCSR, indice_cliente, 3);
+                if (produtos_recomendados_CSR.size() == 0){
+                    printf("Nenhum produto disponivel para recomendacao\n");
+                }
+
+                for (int j = 0; j < produtos_recomendados_CSR.size(); j++) {
+                    int produto = produtos_recomendados_CSR[j].indice_produto_ranking;
+                    string nome_recomendado = lista.nome_produtos[produto];
+                    printf("Produto recomendado: %s\n", nome_recomendado.c_str());
+                }
+            } 
+        } else {
+            printf("\nCliente %s nao encontrado.\n", cliente_alvo.c_str());
+        }
     }
 }
 
@@ -343,6 +395,7 @@ double calcularDistanciaCSR(const MatrizCSR &intersecao, int i, int j) {
     
     return 1.0 - emComum / totalCliente;
 }
+
 ResultadoBusca buscarMaisSimilar(const MatrizCSR &intersecao, int indice_cliente) {
     ResultadoBusca resultado;
     resultado.indiceCliente = -1;

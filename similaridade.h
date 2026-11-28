@@ -29,7 +29,7 @@ void montarMatrizsimilaridade(Matrizes &matriz);
 
 void matriz_multiplica_transposta(Matrizes &matriz);
 
-void escolher_algoritmo (Matrizes &matriz, int opcao_algoritmo);
+void escolher_algoritmo (ListaCompras &lista, Matrizes &matriz, MatrizCSR &comprasCSR, MatrizCSR &intersecaoCSR);
 
 void calcular_tempo(Matrizes &matriz);
 
