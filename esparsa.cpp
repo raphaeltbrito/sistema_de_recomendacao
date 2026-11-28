@@ -182,3 +182,17 @@ void montarIntersecaoCSR (const MatrizCSR &matriz, MatrizCSR &intersecao){
     }
 
 }
+
+double consultarValorCSR(const MatrizCSR &matriz, int linha, int coluna) {
+
+    int inicio = matriz.row_ptr[linha];
+    int fim = matriz.row_ptr[linha + 1];
+
+    for (int i = inicio; i < fim; i++) {
+        if (matriz.col_index[i] == coluna) {
+            return matriz.values[i];
+        }
+    }
+
+    return 0.0;
+}
